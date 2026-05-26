@@ -30,5 +30,6 @@
 - [ ] I've added tests if applicable.
 - [ ] I've listed the tests/checks run, or explained why they were not run.
 - [ ] I did not update generated changelog files manually.
+- [ ] I addressed all CodeRabbit, Greptile, and other review comments, or replied with why no change is needed.
 - [ ] If AI tools assisted this contribution, I reviewed and edited their output and can explain every change.
 - [ ] @mentions of the person or team responsible for reviewing proposed changes.

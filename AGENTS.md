@@ -140,9 +140,16 @@ agents.
   maintainer assignment before preparing PR-ready work.
 - Use the Conventional Commit-style titles described in `CONTRIBUTING.md`. PR
   titles become merge commit messages and feed release automation.
-- Address all coding-agent review comments before handing work to human
-  maintainers. If a review comment is intentionally not addressed, document the
-  reason clearly in the handoff.
+- Follow `CONTRIBUTING.md` for review-readiness policy, including CodeRabbit,
+  Greptile, human review comments, and readiness labels.
+- Before handoff, address every automated review comment or draft a clear reply
+  explaining why no change is needed.
+- Do not treat automated review comments as resolved until the tool confirms
+  resolution when that workflow is supported.
+- Do not resolve human reviewer conversations unless the reviewer who opened
+  them explicitly asks.
+- Do not request or apply `status: ready for maintainer review` while any review
+  comment still needs author action.
 - Do not prefix PR titles or commit messages with agent markers.
 - In final handoffs, report tests/checks run, skipped checks, unresolved risks,
   and any reviewer comments intentionally left unresolved.
