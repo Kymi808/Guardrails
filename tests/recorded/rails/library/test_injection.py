@@ -17,11 +17,13 @@ from __future__ import annotations
 
 import pytest
 
-from nemoguardrails.rails.llm.options import RailStatus, RailType
+from nemoguardrails import LLMRails
+from nemoguardrails.rails.llm.options import GenerationResponse, RailStatus, RailType
 from tests.recorded.assertions import assert_generation_response, assert_rails_result
 from tests.recorded.normalization import normalize_generation_response, normalize_rails_result
 from tests.recorded.rails.library.configs import INJECTION_CONFIG, INJECTION_OMIT_CONFIG
 from tests.recorded.rails.library.helpers import check_rails, generate_with_fake_main
+from tests.recorded.rails_config import load_config
 from tests.recorded.snapshots import snapshot
 
 pytestmark = [pytest.mark.recorded, pytest.mark.asyncio]
@@ -105,4 +107,28 @@ async def test_injection_detection_omits_fake_main_generation():
                 }
             ],
         }
+    )
+
+
+async def test_injection_output_returns_exception_when_enabled():
+    config = load_config(INJECTION_CONFIG)
+    config.enable_rails_exceptions = True
+    rails = LLMRails(config, verbose=False)
+
+    result = await rails.generate_async(
+        messages=[
+            {"role": "user", "content": "hello"},
+            {"role": "assistant", "content": "Hello <script>alert('xss')</script> world"},
+        ],
+        options={"rails": ["output"]},
+    )
+
+    assert isinstance(result, GenerationResponse)
+    assert isinstance(result.response, list)
+    exception = result.response[0]
+    assert exception["role"] == "exception"
+    assert exception["content"]["type"] == "InjectionDetectionRailException"
+    assert (
+        exception["content"]["message"]
+        == "Output not allowed. The output was blocked by the 'injection detection' flow."
     )

@@ -64,7 +64,14 @@ Replay mode installs dummy API keys from `tests/recorded/utils.py`. A cassette m
 
 ## Refresh
 
-Refresh only in a trusted environment with real provider credentials:
+Refresh only in a trusted environment with real provider credentials. The full
+record -> fill-snapshots -> verify loop is wrapped in a make target:
+
+```bash
+OPENAI_API_KEY=... NVIDIA_API_KEY=... make record-tests
+```
+
+Or run the recording step alone:
 
 ```bash
 poetry run pytest tests/recorded --record-mode=all -m "not fake_cassette" -v
