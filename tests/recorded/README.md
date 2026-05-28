@@ -24,6 +24,29 @@ poetry run pytest path::test_my_case --block-network --inline-snapshot=create
 poetry run pytest path::test_my_case --block-network
 ```
 
+## Negative paths
+
+This suite owns **pipeline-level** failures (how `LLMRails` behaves when a model call
+fails) and **public-API input validation**. Client/wire-level conditions (status code to
+exception mapping, retries, SSE, malformed bodies) belong in `tests/llm/clients/`, which
+covers them with `httpx.MockTransport` + JSON fixtures; do not duplicate them here.
+
+Prefer mechanisms in this order:
+
+1. **Recordable real error** (refreshable cassette). A nonexistent model name yields a real,
+   deterministic 404, so error paths record and refresh like any happy path. Use a config
+   whose model is invalid (see `OPENAI_INVALID_MODEL_CONFIG`,
+   `CONTENT_SAFETY_INVALID_MODEL_CONFIG`).
+2. **Pure runtime** `pytest.raises` for input validation (no cassette, no transport).
+3. **Fake cassette** (`@pytest.mark.fake_cassette`) only as a last resort, for a synthetic
+   response that must flow through the full pipeline and cannot be reproduced by 1 or 2.
+
+Observed behavior these tests pin: a failing model call (main *or* a rail's own model)
+propagates as `LLMCallException` — a safety-model failure does not let content through
+silently. Name negative tests `test_<surface>_<failure>_<behavior>` with the suffixes
+`_raises` / `_fails_closed` / `_invalid_*` so they are greppable
+(`pytest -k "raises or invalid"`), and co-locate each with its happy-path sibling module.
+
 ## Replay
 
 ```bash

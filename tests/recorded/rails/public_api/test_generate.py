@@ -18,6 +18,7 @@ from __future__ import annotations
 import pytest
 
 from nemoguardrails import LLMRails
+from nemoguardrails.exceptions import LLMCallException
 from nemoguardrails.rails.llm.options import GenerationResponse
 from tests.recorded.assertions import (
     assert_generated_message,
@@ -32,6 +33,7 @@ from tests.recorded.rails.public_api.configs import (
     NIM_BASELINE_CONFIG,
     NIM_MODEL,
     OPENAI_BASELINE_CONFIG,
+    OPENAI_INVALID_MODEL_CONFIG,
     OPENAI_MODEL,
     OUTPUT_RAILS_CONFIG,
 )
@@ -371,3 +373,29 @@ I'm a versatile, conversational AI that can help you with a wide range of tasks.
 
 If you have a particular project, question, or just want to explore something new, swing it my way--I'm ready to dive in! 🚀\
 """)
+
+
+@pytest.mark.asyncio
+@pytest.mark.vcr
+async def test_openai_generate_async_invalid_model_raises(openai_api_key):
+    rails = LLMRails(load_config(OPENAI_INVALID_MODEL_CONFIG), verbose=False)
+
+    with pytest.raises(LLMCallException) as exc_info:
+        await rails.generate_async(prompt="Say a short safe greeting.")
+    assert getattr(exc_info.value.inner_exception, "status_code", None) == 404
+
+
+@pytest.mark.asyncio
+async def test_generate_async_without_prompt_or_messages_raises():
+    rails = LLMRails(load_config(OPENAI_BASELINE_CONFIG), llm=FakeLLMModel(responses=["unused"]), verbose=False)
+
+    with pytest.raises(ValueError, match="Either prompt or messages must be provided"):
+        await rails.generate_async()
+
+
+@pytest.mark.asyncio
+async def test_generate_async_with_prompt_and_messages_raises():
+    rails = LLMRails(load_config(OPENAI_BASELINE_CONFIG), llm=FakeLLMModel(responses=["unused"]), verbose=False)
+
+    with pytest.raises(ValueError, match="Only one of prompt or messages can be provided"):
+        await rails.generate_async(prompt="hi", messages=[{"role": "user", "content": "hi"}])

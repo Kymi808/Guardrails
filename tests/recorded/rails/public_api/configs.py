@@ -22,6 +22,7 @@ from tests.recorded.rails_config import RailsConfigSource
 CONFIGS_DIR = Path(__file__).parent / "configs"
 OPENAI_MODEL = "gpt-5.4-nano"
 NIM_MODEL = "nvidia/nemotron-3-nano-30b-a3b"
+OPENAI_INVALID_MODEL = "gpt-nonexistent-test-model"
 
 OPENAI_BASELINE_CONFIG = RailsConfigSource.from_content(
     name="openai_baseline",
@@ -30,6 +31,19 @@ OPENAI_BASELINE_CONFIG = RailsConfigSource.from_content(
       - type: main
         engine: openai
         model: {OPENAI_MODEL}
+        parameters:
+          max_retries: 0
+    passthrough: true
+    """,
+)
+
+OPENAI_INVALID_MODEL_CONFIG = RailsConfigSource.from_content(
+    name="openai_invalid_model",
+    yaml_content=f"""
+    models:
+      - type: main
+        engine: openai
+        model: {OPENAI_INVALID_MODEL}
         parameters:
           max_retries: 0
     passthrough: true

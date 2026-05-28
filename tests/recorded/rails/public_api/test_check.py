@@ -262,3 +262,13 @@ async def test_nemoguards_full_check_async(nvidia_api_key):
 
     assert_rails_result(result, status=RailStatus.PASSED)
     assert normalize_rails_result(result) == snapshot({"status": "passed", "rail": None, "content": "what can you do?"})
+
+
+@pytest.mark.asyncio
+async def test_check_async_empty_messages_passes():
+    rails = LLMRails(load_config(INPUT_RAILS_CONFIG), verbose=False)
+
+    result = await rails.check_async([])
+
+    assert_rails_result(result, status=RailStatus.PASSED, content="")
+    assert normalize_rails_result(result) == snapshot({"status": "passed", "rail": None, "content": ""})

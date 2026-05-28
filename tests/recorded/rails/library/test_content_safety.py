@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import pytest
 
+from nemoguardrails.exceptions import LLMCallException
 from nemoguardrails.rails.llm.options import RailStatus, RailType
 from tests.recorded.assertions import (
     assert_blocked_stream_error,
@@ -24,7 +25,7 @@ from tests.recorded.assertions import (
     assert_rails_result,
 )
 from tests.recorded.normalization import normalize_generation_response, normalize_rails_result, normalize_stream_chunks
-from tests.recorded.rails.library.configs import NIM_CONTENT_SAFETY_CONFIG
+from tests.recorded.rails.library.configs import CONTENT_SAFETY_INVALID_MODEL_CONFIG, NIM_CONTENT_SAFETY_CONFIG
 from tests.recorded.rails.library.helpers import check_rails, generate_with_fake_main, stream_with_fake_main
 from tests.recorded.snapshots import snapshot
 
@@ -179,3 +180,13 @@ async def test_content_safety_output_blocks_fake_main_stream(nvidia_api_key):
             ],
         }
     )
+
+
+async def test_content_safety_input_provider_error_raises(nvidia_api_key):
+    with pytest.raises(LLMCallException) as exc_info:
+        await check_rails(
+            CONTENT_SAFETY_INVALID_MODEL_CONFIG,
+            [{"role": "user", "content": "Can you explain your return policy?"}],
+            rail_types=(RailType.INPUT,),
+        )
+    assert getattr(exc_info.value.inner_exception, "status_code", None) == 404
