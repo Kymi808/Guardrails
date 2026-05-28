@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import json
+import unicodedata
 from copy import deepcopy
 from dataclasses import dataclass
 from functools import lru_cache
@@ -23,6 +24,34 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
+SMART_CHAR_MAP = {
+    "‘": "'",
+    "’": "'",
+    "“": '"',
+    "”": '"',
+    "‐": "-",
+    "‑": "-",
+    "‒": "-",
+    "–": "-",
+    "—": "--",
+    "…": "...",
+}
+SMART_CHAR_TRANS = str.maketrans(SMART_CHAR_MAP)
+
+
+def normalize_smart_chars(text: str) -> str:
+    return unicodedata.normalize("NFKC", text.translate(SMART_CHAR_TRANS))
+
+
+def normalize_body(value: Any) -> Any:
+    if isinstance(value, str):
+        return normalize_smart_chars(value)
+    if isinstance(value, dict):
+        return {key: normalize_body(nested) for key, nested in value.items()}
+    if isinstance(value, list):
+        return [normalize_body(item) for item in value]
+    return value
 
 
 @dataclass(frozen=True)
@@ -129,7 +158,7 @@ def cassette_with_parsed_bodies(cassette: dict[str, Any]) -> dict[str, Any]:
         request_body = request.get("body")
         request_data = _json_body(request_body)
         if request_data is not None:
-            request["parsed_body"] = request_data
+            request["parsed_body"] = normalize_body(request_data)
             request.pop("body", None)
 
         response = interaction.get("response", {})
@@ -140,12 +169,12 @@ def cassette_with_parsed_bodies(cassette: dict[str, Any]) -> dict[str, Any]:
         if _is_sse_response(response) and body_text:
             payloads = _sse_body_payloads(body_text)
             if payloads is not None:
-                body["parsed_body"] = payloads
+                body["parsed_body"] = normalize_body(payloads)
                 body.pop("string", None)
             continue
         response_data = _json_body(body)
         if response_data is not None:
-            body["parsed_body"] = response_data
+            body["parsed_body"] = normalize_body(response_data)
             body.pop("string", None)
     return cassette
 

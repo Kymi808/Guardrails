@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import asyncio
 import json
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import pytest
 import yaml
@@ -24,6 +25,8 @@ from vcr.util import read_body
 
 from tests.recorded.cassette import cassette_with_parsed_bodies, cassette_with_rehydrated_bodies
 from tests.recorded.sanitization import (
+    ALLOWED_HEADERS,
+    FILTERED_HEADER_PREFIXES,
     FILTERED_HEADERS,
     FILTERED_QUERY_PARAMETERS,
     JSON_SECRET_KEYS,
@@ -79,6 +82,15 @@ def _replace_case_insensitive(headers: Dict[str, Any], header_names: set[str], v
                 del headers[name]
             else:
                 headers[name] = value
+
+
+def _filter_headers_by_prefix(headers: Dict[str, Any]) -> None:
+    for name in list(headers):
+        lowered = name.lower()
+        if lowered in ALLOWED_HEADERS:
+            continue
+        if any(lowered.startswith(prefix) for prefix in FILTERED_HEADER_PREFIXES):
+            del headers[name]
 
 
 def _scrub_text(value: str) -> str:
@@ -232,6 +244,7 @@ def _scrub_sse_body(body: Any) -> Any:
 
 def before_record_request(request: Any) -> Any:
     _replace_case_insensitive(request.headers, FILTERED_HEADERS)
+    _filter_headers_by_prefix(request.headers)
 
     try:
         data = _decode_json_body(request.body)
@@ -246,6 +259,7 @@ def before_record_request(request: Any) -> Any:
 def before_record_response(response: Dict[str, Any]) -> Dict[str, Any]:
     headers = response.get("headers", {})
     _replace_case_insensitive(headers, FILTERED_HEADERS | VOLATILE_RESPONSE_HEADERS)
+    _filter_headers_by_prefix(headers)
 
     body = response.get("body", {}).get("string")
     if body is None:
@@ -299,6 +313,32 @@ _VCR_CONFIG = build_vcr_config()
 @pytest.fixture(scope="session")
 def vcr_config() -> Dict[str, Any]:
     return _VCR_CONFIG
+
+
+@pytest.fixture(autouse=True)
+def close_owned_http_clients(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
+    from nemoguardrails.llm.clients import base
+
+    tracked: List[Any] = []
+    original_init = base.BaseClient.__init__
+
+    def tracking_init(self: Any, *args: Any, **kwargs: Any) -> None:
+        original_init(self, *args, **kwargs)
+        if getattr(self, "_owns_client", False):
+            tracked.append(self)
+
+    monkeypatch.setattr(base.BaseClient, "__init__", tracking_init)
+
+    yield
+
+    leaked = [client for client in tracked if client._owns_client and not client._client.is_closed]
+    if leaked:
+
+        async def _close_all() -> None:
+            for client in leaked:
+                await client._client.aclose()
+
+        asyncio.run(_close_all())
 
 
 @pytest.fixture

@@ -54,17 +54,17 @@ interactions:
             audio: null
             function_call: null
             tool_calls: []
-            reasoning: "Hmm, the user asked me to say hello in one short sentence. That seems straightforward—they want a\
+            reasoning: "Hmm, the user asked me to say hello in one short sentence. That seems straightforward--they want a\
               \ simple, friendly greeting. \n\nI should keep it concise and warm, matching the \"one short sentence\" request.\
               \ No extra fluff. \n\nThe user might be testing if I can follow instructions precisely, or maybe they just need\
               \ a quick, cheerful response to start a conversation. \n\nI'll go with \"Hello! How can I assist you today?\"\
-              —it's polite, open-ended, and fits perfectly in one sentence. \n\nNo need to overthink it; they kept it simple,\
+              --it's polite, open-ended, and fits perfectly in one sentence. \n\nNo need to overthink it; they kept it simple,\
               \ so I'll keep my reply simple too.\n"
-            reasoning_content: "Hmm, the user asked me to say hello in one short sentence. That seems straightforward—they\
+            reasoning_content: "Hmm, the user asked me to say hello in one short sentence. That seems straightforward--they\
               \ want a simple, friendly greeting. \n\nI should keep it concise and warm, matching the \"one short sentence\"\
               \ request. No extra fluff. \n\nThe user might be testing if I can follow instructions precisely, or maybe they\
               \ just need a quick, cheerful response to start a conversation. \n\nI'll go with \"Hello! How can I assist you\
-              \ today?\"—it's polite, open-ended, and fits perfectly in one sentence. \n\nNo need to overthink it; they kept\
+              \ today?\"--it's polite, open-ended, and fits perfectly in one sentence. \n\nNo need to overthink it; they kept\
               \ it simple, so I'll keep my reply simple too.\n"
           logprobs: null
           finish_reason: stop

@@ -78,18 +78,12 @@ interactions:
       - chunked
       Connection:
       - keep-alive
-      CF-Cache-Status:
-      - DYNAMIC
       Server:
       - cloudflare
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
-      X-Content-Type-Options:
-      - nosniff
       Access-Control-Expose-Headers:
       - CF-Ray
-      x-openai-proxy-wasm:
-      - v0.1
       alt-svc:
       - h3=":443"; ma=86400
     body:

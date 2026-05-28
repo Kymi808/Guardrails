@@ -45,6 +45,15 @@ Parameterized tests include the parameter id in the cassette filename. Client ad
 
 JSON request and response bodies are stored as `parsed_body` and rehydrated by `ReadableYamlSerializer` during replay. SSE responses also use parseable `parsed_body` events.
 
+At serialize time the bodies are normalized to ASCII (smart quotes, en/em dashes, the hyphen family, and ellipsis are folded, then NFKC) so cassettes and inline snapshots stay stable and portable. Response headers are dropped by exact name and by prefix (`x-`, `cf-`, `openai-`); `tests/recorded/sanitization.py` holds the `ALLOWED_HEADERS` exceptions that must survive the prefix sweep (currently `content-type`).
+
+After changing the normalization or header rules, bring committed cassettes in line offline (no provider credentials needed):
+
+```bash
+poetry run python -m tests.recorded.migrate_cassettes
+poetry run pytest tests/recorded --block-network --inline-snapshot=fix
+```
+
 Inspect a cassette:
 
 ```bash
@@ -62,6 +71,8 @@ poetry run pytest tests/recorded/rails --block-network --inline-snapshot=review
 ```
 
 Snapshot formatting uses `ruff format` through `[tool.inline-snapshot]` in `pyproject.toml`.
+
+Volatile response fields (ids, timestamps, fingerprints) are scrubbed to fixed sentinels in the cassette, so snapshots assert them directly without needing loose matchers.
 
 ## Fake Outputs
 

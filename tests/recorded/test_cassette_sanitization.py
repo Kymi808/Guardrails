@@ -168,6 +168,69 @@ def test_recorded_cassette_serializer_redacts_access_tokens_from_parsed_bodies()
 
 
 @pytest.mark.recorded
+def test_recorded_cassette_serializer_normalizes_smart_chars():
+    cassette = {
+        "interactions": [
+            {
+                "request": {
+                    "body": '{"prompt":"hi"}',
+                    "headers": {"Content-Type": ["application/json"]},
+                    "method": "POST",
+                    "uri": "https://api.openai.com/v1/chat/completions",
+                },
+                "response": {
+                    "headers": {"Content-Type": ["application/json"]},
+                    "body": {"string": '{"answer":"‘a’ “b” – — ‑ …"}'},
+                },
+            }
+        ],
+        "version": 1,
+    }
+
+    text = ReadableYamlSerializer.serialize(cassette)
+    loaded = yaml.safe_load(text)
+    answer = loaded["interactions"][0]["response"]["body"]["parsed_body"]["answer"]
+
+    assert answer == "'a' \"b\" - -- - ..."
+    assert all(ord(char) < 128 for char in answer)
+
+
+@pytest.mark.recorded
+def test_recorded_cassette_serializer_filters_headers_by_prefix():
+    response = before_record_response(
+        {
+            "headers": {
+                "Content-Type": ["application/json"],
+                "x-request-id": ["req-123"],
+                "X-Content-Type-Options": ["nosniff"],
+                "cf-cache-status": ["HIT"],
+                "openai-version": ["2020-10-01"],
+            },
+            "body": {"string": '{"ok":true}'},
+        }
+    )
+    headers = response["headers"]
+
+    assert "Content-Type" in headers
+    assert "x-request-id" not in headers
+    assert "X-Content-Type-Options" not in headers
+    assert "cf-cache-status" not in headers
+    assert "openai-version" not in headers
+
+    request = before_record_request(
+        Request(
+            method="POST",
+            uri="https://api.openai.com/v1/chat/completions",
+            body='{"prompt":"hi"}',
+            headers={"Content-Type": "application/json", "x-stainless-os": "MacOS"},
+        )
+    )
+
+    assert "x-stainless-os" not in request.headers
+    assert "Content-Type" in request.headers
+
+
+@pytest.mark.recorded
 def test_recorded_cassette_serializer_keeps_sse_bodies_parseable():
     response = before_record_response(
         {

@@ -256,45 +256,45 @@ interactions:
         - index: 0
           message:
             role: assistant
-            content: "I’m a versatile, conversational AI that can help you with a wide range of tasks. Here’s a quick snapshot\
-              \ of what I can do:\n\n### 1. Answer Questions & Explain Concepts  \n- **General knowledge:** From “What’s the\
-              \ capital of Mongolia?” to “Why does the sky appear blue?” I can dig up facts, provide concise explanations,\
+            content: "I'm a versatile, conversational AI that can help you with a wide range of tasks. Here's a quick snapshot\
+              \ of what I can do:\n\n### 1. Answer Questions & Explain Concepts  \n- **General knowledge:** From \"What's\
+              \ the capital of Mongolia?\" to \"Why does the sky appear blue?\" I can dig up facts, provide concise explanations,\
               \ or dive deep into scientific, historical, or cultural topics.  \n- **Technical subjects:** Need a rundown\
-              \ of how a transformer‑based language model works, or how to write a Python script that parses CSV files? I’ve\
+              \ of how a transformer-based language model works, or how to write a Python script that parses CSV files? I've\
               \ got you covered.\n\n### 2. Write & Edit Content  \n- **Creative writing:** Short stories, poetry, dialogue\
-              \ snippets, world‑building lore—just let me know the tone or theme you’re after.  \n- **Professional writing:**\
+              \ snippets, world-building lore--just let me know the tone or theme you're after.  \n- **Professional writing:**\
               \ Reports, proposals, emails, resumes, cover letters, blog posts, marketing copy, SVG or Markdown files, etc.\
               \ I can polish the language, tighten structure, or generate drafts from scratch.  \n- **Academic help:** Essays,\
-              \ literature reviews, problem‑sets, math derivations, lab write‑ups—always with proper citations and a clear\
+              \ literature reviews, problem-sets, math derivations, lab write-ups--always with proper citations and a clear\
               \ logical flow.\n\n### 3. Coding & Programming  \n- **Multiple languages:** Python, JavaScript, Java, C++, Rust,\
               \ SQL, HTML/CSS, Bash, and more.  \n- **Debugging & troubleshooting:** Paste a traceback or describe an error,\
-              \ and I’ll suggest fixes.  \n- **Algorithms & data structures:** Explain concepts, sketch implementations, or\
-              \ provide ready‑to‑run snippets.  \n- **Web development:** Build static pages, set up a simple Flask/Django\
-              \ app, or draft a React component.  \n- **Automation scripts:** Generating batch files, cron‑job ideas, Selenium\
-              \ scripts, REST‑API calls, etc.\n\n### 4. Learning & Tutoring  \n- **Step‑by‑step guidance:** From “How do I\
-              \ factor a quadratic?” to “Explain the basics of Bayesian inference.”  \n- **Practice problems:** Generate quizzes,\
-              \ flashcards, or worked examples tailored to your skill level.  \n- **Study strategies:** Time‑management tips,\
-              \ note‑taking methods, exam‑prep plans—whatever helps you retain information better.\n\n### 5. Brainstorming\
+              \ and I'll suggest fixes.  \n- **Algorithms & data structures:** Explain concepts, sketch implementations, or\
+              \ provide ready-to-run snippets.  \n- **Web development:** Build static pages, set up a simple Flask/Django\
+              \ app, or draft a React component.  \n- **Automation scripts:** Generating batch files, cron-job ideas, Selenium\
+              \ scripts, REST-API calls, etc.\n\n### 4. Learning & Tutoring  \n- **Step-by-step guidance:** From \"How do\
+              \ I factor a quadratic?\" to \"Explain the basics of Bayesian inference.\"  \n- **Practice problems:** Generate\
+              \ quizzes, flashcards, or worked examples tailored to your skill level.  \n- **Study strategies:** Time-management\
+              \ tips, note-taking methods, exam-prep plans--whatever helps you retain information better.\n\n### 5. Brainstorming\
               \ & Planning  \n- **Idea generation:** Product concepts, story outlines, research topics, party themes, travel\
               \ itineraries, you name it.  \n- **Project planning:** Create timelines, break down tasks, suggest resources,\
-              \ or draft Gantt‑style outlines.  \n- **Decision support:** Compare pros/cons, run simple cost‑benefit analyses,\
-              \ or help you weigh options with hypothetical scenarios.\n\n### 6. Simulations & Role‑Play  \n- **Conversation\
-              \ practice:** Want to simulate a job interview, a negotiation, or a language‑learning dialogue? I can adopt\
-              \ various personas and give feedback.  \n- **Scenario exploration:** “What if humanity discovered cheap fusion\
-              \ energy tomorrow?” – I’ll flesh out plausible outcomes, societal impacts, and technical hurdles.  \n- **Role‑play\
-              \ exercises:** For language learning, public‑speaking practice, or team‑building scenarios.\n\n### 7. Personal\
-              \ Assistance (within my limits)  \n- **Time‑management tips:** Prioritization frameworks, Pomodoro tricks, habit‑forming\
-              \ advice.  \n- **Health & wellness pointers:** General nutrition info, stress‑relief techniques, simple workout\
-              \ concepts—but always remind you to consult a professional for medical or fitness plans.  \n- **Creative hobbies:**\
-              \ Suggest pottery techniques, knitting patterns, photography settings, or DIY home‑improvement projects.\n\n\
-              ### 8. Fun & Entertainment  \n- **Trivia & puzzles:** Riddles, logic puzzles, lateral‑thinking challenges, or\
-              \ quick brain teasers.  \n- **Games:** Text‑based adventure stories, word games, or simple multiplayer scenarios.\
-              \  \n- **Jokes, memes, and riddles:** Fresh material on demand—just ask!\n\n---\n\n#### How to Get the Most\
+              \ or draft Gantt-style outlines.  \n- **Decision support:** Compare pros/cons, run simple cost-benefit analyses,\
+              \ or help you weigh options with hypothetical scenarios.\n\n### 6. Simulations & Role-Play  \n- **Conversation\
+              \ practice:** Want to simulate a job interview, a negotiation, or a language-learning dialogue? I can adopt\
+              \ various personas and give feedback.  \n- **Scenario exploration:** \"What if humanity discovered cheap fusion\
+              \ energy tomorrow?\" - I'll flesh out plausible outcomes, societal impacts, and technical hurdles.  \n- **Role-play\
+              \ exercises:** For language learning, public-speaking practice, or team-building scenarios.\n\n### 7. Personal\
+              \ Assistance (within my limits)  \n- **Time-management tips:** Prioritization frameworks, Pomodoro tricks, habit-forming\
+              \ advice.  \n- **Health & wellness pointers:** General nutrition info, stress-relief techniques, simple workout\
+              \ concepts--but always remind you to consult a professional for medical or fitness plans.  \n- **Creative hobbies:**\
+              \ Suggest pottery techniques, knitting patterns, photography settings, or DIY home-improvement projects.\n\n\
+              ### 8. Fun & Entertainment  \n- **Trivia & puzzles:** Riddles, logic puzzles, lateral-thinking challenges, or\
+              \ quick brain teasers.  \n- **Games:** Text-based adventure stories, word games, or simple multiplayer scenarios.\
+              \  \n- **Jokes, memes, and riddles:** Fresh material on demand--just ask!\n\n---\n\n#### How to Get the Most\
               \ Out of Me  \n1. **Be specific:** The more detail you give about what you need, the better I can tailor the\
-              \ response.  \n2. **Iterate:** If the first answer isn’t perfect, tell me what to adjust—more depth, a different\
-              \ tone, extra examples, etc.  \n3. **Ask follow‑ups:** I can drill down into sub‑topics, clarify jargon, or\
+              \ response.  \n2. **Iterate:** If the first answer isn't perfect, tell me what to adjust--more depth, a different\
+              \ tone, extra examples, etc.  \n3. **Ask follow-ups:** I can drill down into sub-topics, clarify jargon, or\
               \ expand on any point you find interesting.\n\n---\n\nIf you have a particular project, question, or just want\
-              \ to explore something new, swing it my way—I’m ready to dive in! \U0001F680"
+              \ to explore something new, swing it my way--I'm ready to dive in! \U0001F680"
             refusal: null
             annotations: null
             audio: null
@@ -347,43 +347,43 @@ interactions:
           S14: Other.\nS15: Manipulation.\nS16: Fraud/Deception.\nS17: Malware.\nS18: High Risk Gov Decision Making.\nS19:\
           \ Political/Misinformation/Conspiracy.\nS20: Copyright/Trademark/Plagiarism.\nS21: Unauthorized Advice.\nS22: Illegal\
           \ Activity.\nS23: Immoral/Unethical.\n<END UNSAFE CONTENT CATEGORIES>\n\n<BEGIN CONVERSATION>\n\nuser: what can\
-          \ you do?\n\nresponse: agent: I’m a versatile, conversational AI that can help you with a wide range of tasks. Here’s\
+          \ you do?\n\nresponse: agent: I'm a versatile, conversational AI that can help you with a wide range of tasks. Here's\
           \ a quick snapshot of what I can do:\n\n### 1. Answer Questions & Explain Concepts  \n- **General knowledge:** From\
-          \ “What’s the capital of Mongolia?” to “Why does the sky appear blue?” I can dig up facts, provide concise explanations,\
+          \ \"What's the capital of Mongolia?\" to \"Why does the sky appear blue?\" I can dig up facts, provide concise explanations,\
           \ or dive deep into scientific, historical, or cultural topics.  \n- **Technical subjects:** Need a rundown of how\
-          \ a transformer‑based language model works, or how to write a Python script that parses CSV files? I’ve got you\
-          \ covered.\n\n### 2. Write & Edit Content  \n- **Creative writing:** Short stories, poetry, dialogue snippets, world‑building\
-          \ lore—just let me know the tone or theme you’re after.  \n- **Professional writing:** Reports, proposals, emails,\
+          \ a transformer-based language model works, or how to write a Python script that parses CSV files? I've got you\
+          \ covered.\n\n### 2. Write & Edit Content  \n- **Creative writing:** Short stories, poetry, dialogue snippets, world-building\
+          \ lore--just let me know the tone or theme you're after.  \n- **Professional writing:** Reports, proposals, emails,\
           \ resumes, cover letters, blog posts, marketing copy, SVG or Markdown files, etc. I can polish the language, tighten\
-          \ structure, or generate drafts from scratch.  \n- **Academic help:** Essays, literature reviews, problem‑sets,\
-          \ math derivations, lab write‑ups—always with proper citations and a clear logical flow.\n\n### 3. Coding & Programming\
+          \ structure, or generate drafts from scratch.  \n- **Academic help:** Essays, literature reviews, problem-sets,\
+          \ math derivations, lab write-ups--always with proper citations and a clear logical flow.\n\n### 3. Coding & Programming\
           \  \n- **Multiple languages:** Python, JavaScript, Java, C++, Rust, SQL, HTML/CSS, Bash, and more.  \n- **Debugging\
-          \ & troubleshooting:** Paste a traceback or describe an error, and I’ll suggest fixes.  \n- **Algorithms & data\
-          \ structures:** Explain concepts, sketch implementations, or provide ready‑to‑run snippets.  \n- **Web development:**\
+          \ & troubleshooting:** Paste a traceback or describe an error, and I'll suggest fixes.  \n- **Algorithms & data\
+          \ structures:** Explain concepts, sketch implementations, or provide ready-to-run snippets.  \n- **Web development:**\
           \ Build static pages, set up a simple Flask/Django app, or draft a React component.  \n- **Automation scripts:**\
-          \ Generating batch files, cron‑job ideas, Selenium scripts, REST‑API calls, etc.\n\n### 4. Learning & Tutoring \
-          \ \n- **Step‑by‑step guidance:** From “How do I factor a quadratic?” to “Explain the basics of Bayesian inference.”\
+          \ Generating batch files, cron-job ideas, Selenium scripts, REST-API calls, etc.\n\n### 4. Learning & Tutoring \
+          \ \n- **Step-by-step guidance:** From \"How do I factor a quadratic?\" to \"Explain the basics of Bayesian inference.\"\
           \  \n- **Practice problems:** Generate quizzes, flashcards, or worked examples tailored to your skill level.  \n\
-          - **Study strategies:** Time‑management tips, note‑taking methods, exam‑prep plans—whatever helps you retain information\
+          - **Study strategies:** Time-management tips, note-taking methods, exam-prep plans--whatever helps you retain information\
           \ better.\n\n### 5. Brainstorming & Planning  \n- **Idea generation:** Product concepts, story outlines, research\
           \ topics, party themes, travel itineraries, you name it.  \n- **Project planning:** Create timelines, break down\
-          \ tasks, suggest resources, or draft Gantt‑style outlines.  \n- **Decision support:** Compare pros/cons, run simple\
-          \ cost‑benefit analyses, or help you weigh options with hypothetical scenarios.\n\n### 6. Simulations & Role‑Play\
-          \  \n- **Conversation practice:** Want to simulate a job interview, a negotiation, or a language‑learning dialogue?\
-          \ I can adopt various personas and give feedback.  \n- **Scenario exploration:** “What if humanity discovered cheap\
-          \ fusion energy tomorrow?” – I’ll flesh out plausible outcomes, societal impacts, and technical hurdles.  \n- **Role‑play\
-          \ exercises:** For language learning, public‑speaking practice, or team‑building scenarios.\n\n### 7. Personal Assistance\
-          \ (within my limits)  \n- **Time‑management tips:** Prioritization frameworks, Pomodoro tricks, habit‑forming advice.\
-          \  \n- **Health & wellness pointers:** General nutrition info, stress‑relief techniques, simple workout concepts—but\
+          \ tasks, suggest resources, or draft Gantt-style outlines.  \n- **Decision support:** Compare pros/cons, run simple\
+          \ cost-benefit analyses, or help you weigh options with hypothetical scenarios.\n\n### 6. Simulations & Role-Play\
+          \  \n- **Conversation practice:** Want to simulate a job interview, a negotiation, or a language-learning dialogue?\
+          \ I can adopt various personas and give feedback.  \n- **Scenario exploration:** \"What if humanity discovered cheap\
+          \ fusion energy tomorrow?\" - I'll flesh out plausible outcomes, societal impacts, and technical hurdles.  \n- **Role-play\
+          \ exercises:** For language learning, public-speaking practice, or team-building scenarios.\n\n### 7. Personal Assistance\
+          \ (within my limits)  \n- **Time-management tips:** Prioritization frameworks, Pomodoro tricks, habit-forming advice.\
+          \  \n- **Health & wellness pointers:** General nutrition info, stress-relief techniques, simple workout concepts--but\
           \ always remind you to consult a professional for medical or fitness plans.  \n- **Creative hobbies:** Suggest pottery\
-          \ techniques, knitting patterns, photography settings, or DIY home‑improvement projects.\n\n### 8. Fun & Entertainment\
-          \  \n- **Trivia & puzzles:** Riddles, logic puzzles, lateral‑thinking challenges, or quick brain teasers.  \n- **Games:**\
-          \ Text‑based adventure stories, word games, or simple multiplayer scenarios.  \n- **Jokes, memes, and riddles:**\
-          \ Fresh material on demand—just ask!\n\n---\n\n#### How to Get the Most Out of Me  \n1. **Be specific:** The more\
+          \ techniques, knitting patterns, photography settings, or DIY home-improvement projects.\n\n### 8. Fun & Entertainment\
+          \  \n- **Trivia & puzzles:** Riddles, logic puzzles, lateral-thinking challenges, or quick brain teasers.  \n- **Games:**\
+          \ Text-based adventure stories, word games, or simple multiplayer scenarios.  \n- **Jokes, memes, and riddles:**\
+          \ Fresh material on demand--just ask!\n\n---\n\n#### How to Get the Most Out of Me  \n1. **Be specific:** The more\
           \ detail you give about what you need, the better I can tailor the response.  \n2. **Iterate:** If the first answer\
-          \ isn’t perfect, tell me what to adjust—more depth, a different tone, extra examples, etc.  \n3. **Ask follow‑ups:**\
-          \ I can drill down into sub‑topics, clarify jargon, or expand on any point you find interesting.\n\n---\n\nIf you\
-          \ have a particular project, question, or just want to explore something new, swing it my way—I’m ready to dive\
+          \ isn't perfect, tell me what to adjust--more depth, a different tone, extra examples, etc.  \n3. **Ask follow-ups:**\
+          \ I can drill down into sub-topics, clarify jargon, or expand on any point you find interesting.\n\n---\n\nIf you\
+          \ have a particular project, question, or just want to explore something new, swing it my way--I'm ready to dive\
           \ in! \U0001F680\n\n<END CONVERSATION>\n\nProvide your safety assessment for the above conversation in the below\
           \ output JSON format:\n{\"User Safety\": safe or unsafe rating for the user message, \"Response Safety\": safe or\
           \ unsafe rating for the agent response. Omit if no agent response present. \"Safety Categories\": a comma-separated\

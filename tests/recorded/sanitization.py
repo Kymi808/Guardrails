@@ -31,26 +31,16 @@ FILTERED_HEADERS = {
 
 FILTERED_QUERY_PARAMETERS = ("api_key", "key", "token")
 
+FILTERED_HEADER_PREFIXES = ("x-", "cf-", "openai-")
+
+ALLOWED_HEADERS = {"content-type"}
+
 VOLATILE_RESPONSE_HEADERS = {
-    "cf-ray",
     "content-length",
     "date",
     "nvcf-reqid",
-    "openai-processing-ms",
-    "openai-version",
     "request-id",
     "server-timing",
-    "x-compute-time",
-    "x-amzn-trace-id",
-    "x-envoy-upstream-service-time",
-    "x-nvcf-request-id",
-    "x-request-id",
-    "x-ratelimit-limit-requests",
-    "x-ratelimit-limit-tokens",
-    "x-ratelimit-remaining-requests",
-    "x-ratelimit-remaining-tokens",
-    "x-ratelimit-reset-requests",
-    "x-ratelimit-reset-tokens",
 }
 
 SECRET_PATTERNS = (
