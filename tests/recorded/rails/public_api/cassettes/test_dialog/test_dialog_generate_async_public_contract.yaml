@@ -203,17 +203,14 @@ interactions:
         - index: 0
           message:
             role: assistant
-            content: |-
-              Hello! 😊 How can I assist you today?
-
-              If you tell me what you’re trying to do—writing something, answering a question, brainstorming ideas, coding, planning, or anything else—I’ll jump in.
+            content: Hi! 👋 How can I help you today?
             refusal: null
             annotations: []
           finish_reason: stop
         usage:
           prompt_tokens: 228
-          completion_tokens: 46
-          total_tokens: 274
+          completion_tokens: 14
+          total_tokens: 242
           prompt_tokens_details:
             cached_tokens: 0
             audio_tokens: 0

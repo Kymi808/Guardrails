@@ -188,7 +188,7 @@ async def test_task_specific_models_generate_async(request, record_mode, recorde
         assert_request_payload(recorded_cassette_path, model=OPENAI_MODEL)
     assert normalize_generation_response(result) == snapshot(
         {
-            "response": [{"role": "assistant", "content": "Hello! 👋 How can I help you today?"}],
+            "response": [{"role": "assistant", "content": "Hi! 👋 How can I help you today?"}],
             "activated_rails": [],
             "llm_calls": [
                 {
@@ -204,20 +204,16 @@ async def test_task_specific_models_generate_async(request, record_mode, recorde
                     "task": "generate_next_steps",
                     "provider": "openai",
                     "model": "gpt-5.4-nano",
-                    "completion": """\
-Hello! 👋 I’m here to help.  \n\
-
-Tell me what you’d like to do—e.g., answer a question, explain a concept, write or edit text, brainstorm ideas, help with coding, or plan something.\
-""",
+                    "completion": "Hello! 👋 How can I assist you today?",
                     "prompt_tokens": 228,
-                    "completion_tokens": 50,
-                    "total_tokens": 278,
+                    "completion_tokens": 14,
+                    "total_tokens": 242,
                 },
                 {
                     "task": "generate_bot_message",
                     "provider": "openai",
                     "model": "gpt-5.4-nano",
-                    "completion": "Hello! 👋 How can I help you today?",
+                    "completion": "Hi! 👋 How can I help you today?",
                     "prompt_tokens": 678,
                     "completion_tokens": 14,
                     "total_tokens": 692,

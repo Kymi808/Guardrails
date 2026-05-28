@@ -203,15 +203,14 @@ interactions:
         - index: 0
           message:
             role: assistant
-            content: "Hello! \U0001F44B I’m here to help.  \n\nTell me what you’d like to do—e.g., answer a question, explain\
-              \ a concept, write or edit text, brainstorm ideas, help with coding, or plan something."
+            content: Hello! 👋 How can I assist you today?
             refusal: null
             annotations: []
           finish_reason: stop
         usage:
           prompt_tokens: 228
-          completion_tokens: 50
-          total_tokens: 278
+          completion_tokens: 14
+          total_tokens: 242
           prompt_tokens_details:
             cached_tokens: 0
             audio_tokens: 0
@@ -337,7 +336,7 @@ interactions:
         - index: 0
           message:
             role: assistant
-            content: Hello! 👋 How can I help you today?
+            content: Hi! 👋 How can I help you today?
             refusal: null
             annotations: []
           finish_reason: stop

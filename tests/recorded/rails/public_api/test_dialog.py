@@ -36,7 +36,12 @@ async def test_dialog_generate_async_public_contract(request):
     result = await rails.generate_async(messages=[{"role": "user", "content": "hello"}])
 
     assert_generated_message(result)
-    assert result == snapshot({"role": "assistant", "content": "Hello! How can I assist you today?"})
+    assert result == snapshot(
+        {
+            "role": "assistant",
+            "content": "Hello! How can I assist you today?",
+        }
+    )
 
 
 @pytest.mark.asyncio
