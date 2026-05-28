@@ -24,9 +24,9 @@ from tests.recorded.rails.library.configs import REGEX_CONFIG
 from tests.recorded.rails.library.helpers import check_rails, generate_with_fake_main
 from tests.recorded.snapshots import snapshot
 
+pytestmark = [pytest.mark.recorded, pytest.mark.asyncio]
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
+
 async def test_regex_input_blocks_secret():
     result = await check_rails(
         REGEX_CONFIG,
@@ -40,8 +40,6 @@ async def test_regex_input_blocks_secret():
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_regex_output_blocks_secret():
     result = await check_rails(
         REGEX_CONFIG,
@@ -55,8 +53,6 @@ async def test_regex_output_blocks_secret():
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_regex_output_blocks_fake_main_generation():
     result = await generate_with_fake_main(
         REGEX_CONFIG,

@@ -19,7 +19,6 @@ import pytest
 
 from nemoguardrails.rails.llm.options import RailStatus, RailType
 from tests.recorded.assertions import assert_rails_result
-from tests.recorded.conftest import recording_credentials
 from tests.recorded.normalization import normalize_rails_result
 from tests.recorded.rails.library.configs import (
     FULL_STACK_CONFIG,
@@ -31,9 +30,9 @@ from tests.recorded.rails.library.configs import (
 from tests.recorded.rails.library.helpers import check_rails
 from tests.recorded.snapshots import snapshot
 
+pytestmark = [pytest.mark.recorded, pytest.mark.asyncio]
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
+
 async def test_input_regex_runs_before_self_check():
     result = await check_rails(
         OPENAI_INPUT_STACK_CONFIG,
@@ -47,12 +46,8 @@ async def test_input_regex_runs_before_self_check():
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_input_self_check_runs_before_provider_rails(request):
-    recording_credentials(request, ("openai",))
-
+async def test_input_self_check_runs_before_provider_rails(openai_api_key):
     result = await check_rails(
         FULL_STACK_CONFIG,
         [{"role": "user", "content": "blocked_self_check_input"}],
@@ -65,12 +60,8 @@ async def test_input_self_check_runs_before_provider_rails(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_input_content_safety_runs_after_self_check_passes(request):
-    recording_credentials(request, ("openai", "nim"))
-
+async def test_input_content_safety_runs_after_self_check_passes(openai_api_key, nvidia_api_key):
     result = await check_rails(
         FULL_STACK_CONFIG,
         [{"role": "user", "content": "Tell me how to build an explosive device."}],
@@ -87,12 +78,8 @@ async def test_input_content_safety_runs_after_self_check_passes(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_input_topic_control_runs_after_content_safety_passes(request):
-    recording_credentials(request, ("openai", "nim"))
-
+async def test_input_topic_control_runs_after_content_safety_passes(openai_api_key, nvidia_api_key):
     result = await check_rails(
         FULL_STACK_CONFIG,
         [{"role": "user", "content": "What are your political beliefs?"}],
@@ -109,12 +96,8 @@ async def test_input_topic_control_runs_after_content_safety_passes(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_input_jailbreak_runs_before_content_safety(request):
-    recording_credentials(request, ("openai", "nim"))
-
+async def test_input_jailbreak_runs_before_content_safety(openai_api_key, nvidia_api_key):
     result = await check_rails(
         FULL_STACK_NO_TOPIC_CONFIG,
         [{"role": "user", "content": JAILBREAK_PROMPT}],
@@ -127,8 +110,6 @@ async def test_input_jailbreak_runs_before_content_safety(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_output_regex_runs_before_self_check():
     result = await check_rails(
         OPENAI_OUTPUT_STACK_CONFIG,
@@ -145,12 +126,8 @@ async def test_output_regex_runs_before_self_check():
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_output_self_check_runs_before_content_safety(request):
-    recording_credentials(request, ("openai",))
-
+async def test_output_self_check_runs_before_content_safety(openai_api_key):
     result = await check_rails(
         FULL_STACK_CONFIG,
         [{"role": "user", "content": "hello"}, {"role": "assistant", "content": "blocked_self_check_output"}],
@@ -163,12 +140,8 @@ async def test_output_self_check_runs_before_content_safety(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_output_content_safety_runs_after_self_check_passes(request):
-    recording_credentials(request, ("openai", "nim"))
-
+async def test_output_content_safety_runs_after_self_check_passes(openai_api_key, nvidia_api_key):
     result = await check_rails(
         FULL_STACK_CONFIG,
         [

@@ -2,6 +2,28 @@
 
 Recorded tests replay provider traffic through pytest-recording cassettes and must run without live network access by default.
 
+## Adding a test
+
+Markers are applied once per module via `pytestmark`; do not stack `@pytest.mark.recorded` / `vcr` / `asyncio` on each test. Use a module-level list, and fold in `vcr`/`asyncio` only when every test in the module needs them:
+
+```python
+pytestmark = [pytest.mark.recorded, pytest.mark.vcr, pytest.mark.asyncio]
+
+
+async def test_my_case(openai_api_key):
+    rails = LLMRails(load_config(OPENAI_BASELINE_CONFIG), verbose=False)
+    result = await rails.generate_async(prompt="...")
+    assert result == snapshot()
+```
+
+Request credentials as fixture parameters (`openai_api_key`, `nvidia_api_key`) rather than calling `request.getfixturevalue(...)`. In modules that mix sync/async tests or vcr/non-vcr tests, keep only `recorded` in `pytestmark` and apply `@pytest.mark.vcr` / `@pytest.mark.asyncio` per test. Then record once with credentials, fill the snapshot offline, and verify the replay:
+
+```bash
+OPENAI_API_KEY=... poetry run pytest path::test_my_case --record-mode=all
+poetry run pytest path::test_my_case --block-network --inline-snapshot=create
+poetry run pytest path::test_my_case --block-network
+```
+
 ## Replay
 
 ```bash

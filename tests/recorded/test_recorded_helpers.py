@@ -22,8 +22,9 @@ from tests.recorded.assertions import assert_stream_contract
 from tests.recorded.rails.public_api.configs import INPUT_RAILS_CONFIG
 from tests.recorded.rails_config import load_config
 
+pytestmark = [pytest.mark.recorded]
 
-@pytest.mark.recorded
+
 def test_load_config_returns_fresh_copy_when_llmrails_mutates_config():
     config = load_config(INPUT_RAILS_CONFIG)
     original_flow_count = len(config.flows)
@@ -34,6 +35,5 @@ def test_load_config_returns_fresh_copy_when_llmrails_mutates_config():
     assert len(load_config(INPUT_RAILS_CONFIG).flows) == original_flow_count
 
 
-@pytest.mark.recorded
 def test_assert_stream_contract_accepts_metadata_text_chunks():
     assert assert_stream_contract([{"text": "Hello", "metadata": {"usage": {}}}], expect_multiple=False) == "Hello"

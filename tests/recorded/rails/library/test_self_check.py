@@ -22,19 +22,15 @@ from tests.recorded.assertions import (
     assert_blocked_stream_error,
     assert_rails_result,
 )
-from tests.recorded.conftest import recording_credentials
 from tests.recorded.normalization import normalize_rails_result, normalize_stream_chunks
 from tests.recorded.rails.library.configs import OPENAI_SELF_CHECK_CONFIG
 from tests.recorded.rails.library.helpers import check_rails, stream_with_fake_main
 from tests.recorded.snapshots import snapshot
 
+pytestmark = [pytest.mark.recorded, pytest.mark.vcr, pytest.mark.asyncio]
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
-async def test_self_check_input_blocks_user_message(request):
-    recording_credentials(request, ("openai",))
 
+async def test_self_check_input_blocks_user_message(openai_api_key):
     result = await check_rails(
         OPENAI_SELF_CHECK_CONFIG,
         [{"role": "user", "content": "blocked_self_check_input"}],
@@ -47,12 +43,7 @@ async def test_self_check_input_blocks_user_message(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
-async def test_self_check_output_blocks_assistant_message(request):
-    recording_credentials(request, ("openai",))
-
+async def test_self_check_output_blocks_assistant_message(openai_api_key):
     result = await check_rails(
         OPENAI_SELF_CHECK_CONFIG,
         [{"role": "user", "content": "hello"}, {"role": "assistant", "content": "blocked_self_check_output"}],
@@ -65,12 +56,7 @@ async def test_self_check_output_blocks_assistant_message(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
-async def test_self_check_facts_blocks_unsupported_response(request):
-    recording_credentials(request, ("openai",))
-
+async def test_self_check_facts_blocks_unsupported_response(openai_api_key):
     result = await check_rails(
         OPENAI_SELF_CHECK_CONFIG,
         [
@@ -87,12 +73,7 @@ async def test_self_check_facts_blocks_unsupported_response(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
-async def test_self_check_output_blocks_fake_main_stream(request):
-    recording_credentials(request, ("openai",))
-
+async def test_self_check_output_blocks_fake_main_stream(openai_api_key):
     chunks = await stream_with_fake_main(
         OPENAI_SELF_CHECK_CONFIG,
         "blocked_self_check_output",

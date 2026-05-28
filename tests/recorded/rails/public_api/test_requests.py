@@ -39,6 +39,8 @@ from tests.recorded.rails.public_api.configs import (
 from tests.recorded.rails_config import RailsConfigSource, load_config
 from tests.recorded.snapshots import snapshot
 
+pytestmark = [pytest.mark.recorded, pytest.mark.vcr, pytest.mark.asyncio]
+
 
 @dataclass(frozen=True)
 class LLMParamScenario:
@@ -107,18 +109,12 @@ async def _run_generate_request(request, record_mode, recorded_cassette_path, sc
     return normalize_generation_response(result)
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
 async def test_openai_llm_params_generate_async_request(request, record_mode, recorded_cassette_path):
     assert await _run_generate_request(request, record_mode, recorded_cassette_path, OPENAI_SCENARIO) == snapshot(
         {"response": [{"role": "assistant", "content": "Hello!"}], "activated_rails": [], "llm_calls": []}
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
 async def test_nim_llm_params_generate_async_request(request, record_mode, recorded_cassette_path):
     assert await _run_generate_request(request, record_mode, recorded_cassette_path, NIM_SCENARIO) == snapshot(
         {"response": [{"role": "assistant", "content": "Hello!"}], "activated_rails": [], "llm_calls": []}
@@ -148,29 +144,19 @@ async def _run_stream_request(request, record_mode, recorded_cassette_path, scen
     return normalize_stream_chunks(chunks)
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
 async def test_openai_llm_params_stream_async_request(request, record_mode, recorded_cassette_path):
     assert await _run_stream_request(request, record_mode, recorded_cassette_path, OPENAI_SCENARIO) == snapshot(
         {"content": "Hello!", "chunks": ["", "Hello", "!", "", ""], "errors": []}
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
 async def test_nim_llm_params_stream_async_request(request, record_mode, recorded_cassette_path):
     assert await _run_stream_request(request, record_mode, recorded_cassette_path, NIM_SCENARIO) == snapshot(
         {"content": "Hello!", "chunks": ["", "Hello", "!", ""], "errors": []}
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
-@pytest.mark.vcr
-async def test_task_specific_models_generate_async(request, record_mode, recorded_cassette_path):
-    request.getfixturevalue("openai_api_key")
+async def test_task_specific_models_generate_async(openai_api_key, record_mode, recorded_cassette_path):
     rails = LLMRails(load_config(TASK_MODELS_CONFIG), verbose=False)
 
     result = await rails.generate_async(

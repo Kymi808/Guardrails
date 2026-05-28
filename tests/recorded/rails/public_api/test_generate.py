@@ -39,11 +39,11 @@ from tests.recorded.rails_config import load_config
 from tests.recorded.snapshots import snapshot
 from tests.utils import FakeLLMModel
 
+pytestmark = [pytest.mark.recorded]
 
-@pytest.mark.recorded
+
 @pytest.mark.vcr
-def test_openai_generate_sync_public_contract(request):
-    request.getfixturevalue("openai_api_key")
+def test_openai_generate_sync_public_contract(openai_api_key):
     rails = LLMRails(load_config(OPENAI_BASELINE_CONFIG), verbose=False)
 
     result = rails.generate(prompt="Say a short safe greeting.")
@@ -52,10 +52,8 @@ def test_openai_generate_sync_public_contract(request):
     assert result == snapshot("Hello! How can I help you today?")
 
 
-@pytest.mark.recorded
 @pytest.mark.vcr
-def test_nim_generate_sync_public_contract(request):
-    request.getfixturevalue("nvidia_api_key")
+def test_nim_generate_sync_public_contract(nvidia_api_key):
     rails = LLMRails(load_config(NIM_BASELINE_CONFIG), verbose=False)
 
     result = rails.generate(messages=[{"role": "user", "content": "Say hello in one short sentence."}])
@@ -82,10 +80,8 @@ Hello! How can I assist you today?\
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_openai_generate_async_public_contract(request):
-    request.getfixturevalue("openai_api_key")
+async def test_openai_generate_async_public_contract(openai_api_key):
     rails = LLMRails(load_config(OPENAI_BASELINE_CONFIG), verbose=False)
 
     result = await rails.generate_async(prompt="Say a short safe greeting.")
@@ -95,10 +91,8 @@ async def test_openai_generate_async_public_contract(request):
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_nim_generate_async_public_contract(request):
-    request.getfixturevalue("nvidia_api_key")
+async def test_nim_generate_async_public_contract(nvidia_api_key):
     rails = LLMRails(load_config(NIM_BASELINE_CONFIG), verbose=False)
 
     result = await rails.generate_async(messages=[{"role": "user", "content": "Say hello in one short sentence."}])
@@ -148,7 +142,6 @@ Hello!\
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_output_rails_generate_async_blocks_fake_main_output():
     rails = LLMRails(load_config(OUTPUT_RAILS_CONFIG), llm=FakeLLMModel(responses=["block output"]), verbose=False)
 
@@ -186,7 +179,6 @@ async def test_output_rails_generate_async_blocks_fake_main_output():
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_output_rails_generate_async_modifies_fake_main_output():
     rails = LLMRails(load_config(OUTPUT_RAILS_CONFIG), llm=FakeLLMModel(responses=["modify output"]), verbose=False)
 
@@ -214,10 +206,10 @@ async def test_output_rails_generate_async_modifies_fake_main_output():
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_openai_generate_async_log_matches_recorded_chat_completion(request, record_mode, recorded_cassette_path):
-    request.getfixturevalue("openai_api_key")
+async def test_openai_generate_async_log_matches_recorded_chat_completion(
+    openai_api_key, record_mode, recorded_cassette_path
+):
     rails = LLMRails(load_config(OPENAI_BASELINE_CONFIG), verbose=False)
 
     result = await rails.generate_async(
@@ -264,10 +256,8 @@ async def test_openai_generate_async_log_matches_recorded_chat_completion(reques
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_nim_generate_async_log_matches_recorded_usage(request, record_mode, recorded_cassette_path):
-    request.getfixturevalue("nvidia_api_key")
+async def test_nim_generate_async_log_matches_recorded_usage(nvidia_api_key, record_mode, recorded_cassette_path):
     rails = LLMRails(load_config(NIM_BASELINE_CONFIG), verbose=False)
 
     result = await rails.generate_async(
@@ -317,10 +307,8 @@ async def test_nim_generate_async_log_matches_recorded_usage(request, record_mod
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_nemoguards_full_generate_async(request):
-    request.getfixturevalue("nvidia_api_key")
+async def test_nemoguards_full_generate_async(nvidia_api_key):
     rails = LLMRails(load_config(NEMOGUARDS_FULL_CONFIG), verbose=False)
 
     result = await rails.generate_async(prompt="what can you do?")

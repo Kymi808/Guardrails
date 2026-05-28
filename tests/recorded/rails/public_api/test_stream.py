@@ -40,17 +40,16 @@ from tests.recorded.rails.public_api.configs import (
 from tests.recorded.rails_config import load_config
 from tests.recorded.snapshots import snapshot
 
+pytestmark = [pytest.mark.recorded, pytest.mark.asyncio]
+
 
 async def _chunks(values: list[str]) -> AsyncIterator[str]:
     for value in values:
         yield value
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_openai_stream_async_public_contract(request):
-    request.getfixturevalue("openai_api_key")
+async def test_openai_stream_async_public_contract(openai_api_key):
     rails = LLMRails(load_config(OPENAI_BASELINE_CONFIG), verbose=False)
 
     chunks = []
@@ -64,11 +63,8 @@ async def test_openai_stream_async_public_contract(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_nim_stream_async_public_contract(request):
-    request.getfixturevalue("nvidia_api_key")
+async def test_nim_stream_async_public_contract(nvidia_api_key):
     rails = LLMRails(load_config(NIM_BASELINE_CONFIG), verbose=False)
 
     chunks = []
@@ -121,11 +117,10 @@ async def test_nim_stream_async_public_contract(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_stream_async_matches_recorded_chat_completion_metadata(request, record_mode, recorded_cassette_path):
-    request.getfixturevalue("openai_api_key")
+async def test_stream_async_matches_recorded_chat_completion_metadata(
+    openai_api_key, record_mode, recorded_cassette_path
+):
     rails = LLMRails(load_config(OPENAI_BASELINE_CONFIG), verbose=False)
 
     chunks = []
@@ -182,8 +177,6 @@ async def test_stream_async_matches_recorded_chat_completion_metadata(request, r
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_streaming_output_rails_allowed():
     rails = LLMRails(load_config(STREAMING_OUTPUT_RAILS_CONFIG), verbose=False)
 
@@ -201,8 +194,6 @@ async def test_streaming_output_rails_allowed():
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_streaming_output_rails_blocked():
     rails = LLMRails(load_config(STREAMING_OUTPUT_RAILS_CONFIG), verbose=False)
 
@@ -234,8 +225,6 @@ async def test_streaming_output_rails_blocked():
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_streaming_output_rails_disabled_validation():
     rails = LLMRails(load_config(STREAMING_DISABLED_CONFIG), verbose=False)
 

@@ -34,6 +34,8 @@ from tests.recorded.rails.public_api.configs import (
 from tests.recorded.rails_config import RailsConfigSource, load_config
 from tests.recorded.snapshots import snapshot
 
+pytestmark = [pytest.mark.recorded]
+
 
 @dataclass(frozen=True)
 class CheckScenario:
@@ -150,7 +152,6 @@ def _rail_types(scenario: CheckScenario) -> list[RailType] | None:
     return list(scenario.rail_types) if scenario.rail_types is not None else None
 
 
-@pytest.mark.recorded
 def test_check_sync_public_contracts():
     results = {}
     for scenario in SCENARIOS:
@@ -202,7 +203,6 @@ def test_check_sync_public_contracts():
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_check_async_public_contracts():
     results = {}
     for scenario in SCENARIOS:
@@ -254,10 +254,8 @@ async def test_check_async_public_contracts():
 
 
 @pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_nemoguards_full_check_async(request):
-    request.getfixturevalue("nvidia_api_key")
+async def test_nemoguards_full_check_async(nvidia_api_key):
     rails = LLMRails(load_config(NEMOGUARDS_FULL_CONFIG), verbose=False)
 
     result = await rails.check_async([{"role": "user", "content": "what can you do?"}])

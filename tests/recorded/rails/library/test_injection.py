@@ -24,9 +24,9 @@ from tests.recorded.rails.library.configs import INJECTION_CONFIG, INJECTION_OMI
 from tests.recorded.rails.library.helpers import check_rails, generate_with_fake_main
 from tests.recorded.snapshots import snapshot
 
+pytestmark = [pytest.mark.recorded, pytest.mark.asyncio]
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
+
 async def test_injection_detection_rejects_xss_output():
     result = await check_rails(
         INJECTION_CONFIG,
@@ -47,8 +47,6 @@ async def test_injection_detection_rejects_xss_output():
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_injection_detection_omits_sql_output():
     result = await check_rails(
         INJECTION_OMIT_CONFIG,
@@ -69,8 +67,6 @@ async def test_injection_detection_omits_sql_output():
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_injection_detection_omits_fake_main_generation():
     result = await generate_with_fake_main(
         INJECTION_OMIT_CONFIG,

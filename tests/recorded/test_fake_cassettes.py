@@ -21,10 +21,11 @@ import pytest
 
 from tests.recorded.fake_cassettes import fake_cassette_header, validate_fake_cassette_metadata
 
+pytestmark = [pytest.mark.recorded]
+
 RECORDED_DIR = Path(__file__).parent
 
 
-@pytest.mark.recorded
 def test_fake_cassette_header_metadata_validation(tmp_path):
     cassette = tmp_path / "fake.yaml"
     cassette.write_text(
@@ -44,7 +45,6 @@ interactions: []
     validate_fake_cassette_metadata(cassette)
 
 
-@pytest.mark.recorded
 def test_committed_fake_cassettes_have_metadata():
     for cassette in RECORDED_DIR.rglob("cassettes/**/fake/**/*.yaml"):
         validate_fake_cassette_metadata(cassette)

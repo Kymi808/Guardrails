@@ -32,6 +32,8 @@ from tests.recorded.conftest import (
 from tests.recorded.sanitization import FILTERED_HEADERS
 from tests.recorded.utils import api_key_for_record_mode
 
+pytestmark = [pytest.mark.recorded]
+
 RECORDED_DIR = Path(__file__).parent
 
 FORBIDDEN_HEADER_NAMES = FILTERED_HEADERS
@@ -68,7 +70,6 @@ def _cassette_headers(data: Any) -> list[dict]:
     return headers
 
 
-@pytest.mark.recorded
 def test_recorded_cassettes_are_sanitized():
     cassette_paths = sorted(RECORDED_DIR.rglob("cassettes/**/*.yaml"))
     if not cassette_paths:
@@ -89,7 +90,6 @@ def test_recorded_cassettes_are_sanitized():
     assert not failures, "\n".join(failures)
 
 
-@pytest.mark.recorded
 def test_recorded_cassette_serializer_keeps_json_bodies_readable():
     response = before_record_response(
         {
@@ -123,7 +123,6 @@ def test_recorded_cassette_serializer_keeps_json_bodies_readable():
     assert ReadableYamlSerializer.deserialize(text)["interactions"][0]["response"]["body"]["string"].startswith("{")
 
 
-@pytest.mark.recorded
 def test_recorded_cassette_serializer_redacts_access_tokens_from_parsed_bodies():
     request = Request(
         method="POST",
@@ -167,7 +166,6 @@ def test_recorded_cassette_serializer_redacts_access_tokens_from_parsed_bodies()
     assert loaded["interactions"][0]["response"]["body"]["parsed_body"]["nested"]["accessToken"] == "[REDACTED]"
 
 
-@pytest.mark.recorded
 def test_recorded_cassette_serializer_normalizes_smart_chars():
     cassette = {
         "interactions": [
@@ -195,7 +193,6 @@ def test_recorded_cassette_serializer_normalizes_smart_chars():
     assert all(ord(char) < 128 for char in answer)
 
 
-@pytest.mark.recorded
 def test_recorded_cassette_serializer_filters_headers_by_prefix():
     response = before_record_response(
         {
@@ -230,7 +227,6 @@ def test_recorded_cassette_serializer_filters_headers_by_prefix():
     assert "Content-Type" in request.headers
 
 
-@pytest.mark.recorded
 def test_recorded_cassette_serializer_keeps_sse_bodies_parseable():
     response = before_record_response(
         {
@@ -264,7 +260,6 @@ def test_recorded_cassette_serializer_keeps_sse_bodies_parseable():
     assert "data: [DONE]" in ReadableYamlSerializer.deserialize(text)["interactions"][0]["response"]["body"]["string"]
 
 
-@pytest.mark.recorded
 def test_recorded_response_metadata_normalization_preserves_nested_ids():
     response = before_record_response(
         {
@@ -300,7 +295,6 @@ def test_recorded_response_metadata_normalization_preserves_nested_ids():
     assert parsed_body["choices"][0]["message"]["tool_calls"][0]["id"] == "call_123"
 
 
-@pytest.mark.recorded
 def test_recorded_jailbreak_score_normalization_allows_extra_fields():
     response = before_record_response(
         {
@@ -330,7 +324,6 @@ def test_recorded_jailbreak_score_normalization_allows_extra_fields():
     assert parsed_body == {"jailbreak": True, "score": 0.0, "model": "jailbreak-detect"}
 
 
-@pytest.mark.recorded
 def test_recorded_request_sanitizer_strips_volatile_headers():
     request = Request(
         method="POST",
@@ -346,18 +339,15 @@ def test_recorded_request_sanitizer_strips_volatile_headers():
     assert "hello" in body
 
 
-@pytest.mark.recorded
 def test_recorded_vcr_config_matches_on_request_body():
     assert "recorded_body" in build_vcr_config()["match_on"]
 
 
-@pytest.mark.recorded
 def test_recorded_provider_key_lookup_rejects_unknown_provider():
     with pytest.raises(ValueError, match="Unknown recorded provider 'nvidia'; expected one of: nim, openai"):
         _provider_key_fixture_name("nvidia")
 
 
-@pytest.mark.recorded
 def test_recorded_refresh_uses_api_key_without_live_mode_gate(monkeypatch):
     monkeypatch.setenv("LIVE_TEST_MODE", "0")
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
@@ -371,7 +361,6 @@ def test_recorded_refresh_uses_api_key_without_live_mode_gate(monkeypatch):
     assert api_key_for_record_mode("OPENAI_API_KEY", "dummy-key", "rewrite") == "real-key"
 
 
-@pytest.mark.recorded
 def test_recorded_body_matcher_compares_sanitized_json_bodies():
     cassette_request = Request(
         method="POST",

@@ -20,8 +20,9 @@ import pytest
 from tests.recorded.cassette import recorded_chat_response
 from tests.recorded.inspect_cassette import cassette_summary
 
+pytestmark = [pytest.mark.recorded]
 
-@pytest.mark.recorded
+
 def test_cassette_summary_reads_parsed_bodies(tmp_path):
     cassette = tmp_path / "example.yaml"
     cassette.write_text(
@@ -65,7 +66,6 @@ interactions:
     ]
 
 
-@pytest.mark.recorded
 def test_cassette_summary_reads_raw_error_bodies(tmp_path):
     cassette = tmp_path / "example.yaml"
     cassette.write_text(
@@ -105,7 +105,6 @@ interactions:
     ]
 
 
-@pytest.mark.recorded
 def test_recorded_chat_response_normalizes_zero_and_nullable_usage(tmp_path):
     cassette = tmp_path / "example.yaml"
     cassette.write_text(
@@ -157,7 +156,6 @@ interactions:
     assert nullable_usage == {"input_tokens": None, "output_tokens": None, "total_tokens": None}
 
 
-@pytest.mark.recorded
 def test_recorded_chat_response_skips_non_dict_response_payloads(tmp_path):
     cassette = tmp_path / "example.yaml"
     cassette.write_text(

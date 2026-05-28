@@ -18,9 +18,9 @@ import pytest
 from nemoguardrails.embeddings.providers.openai import OpenAIEmbeddingModel
 from tests.recorded.utils import DUMMY_OPENAI_API_KEY, api_key_for_record_mode
 
+pytestmark = [pytest.mark.recorded, pytest.mark.vcr]
 
-@pytest.mark.recorded
-@pytest.mark.vcr
+
 @pytest.mark.default_cassette("openai_embeddings_sync.yaml")
 def test_openai_embeddings_sync(record_mode):
     api_key = api_key_for_record_mode("OPENAI_API_KEY", DUMMY_OPENAI_API_KEY, record_mode)

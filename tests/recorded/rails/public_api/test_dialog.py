@@ -25,12 +25,11 @@ from tests.recorded.rails.public_api.configs import DIALOG_CONFIG, SINGLE_CALL_C
 from tests.recorded.rails_config import load_config
 from tests.recorded.snapshots import snapshot
 
+pytestmark = [pytest.mark.recorded, pytest.mark.asyncio]
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
+
 @pytest.mark.vcr
-async def test_dialog_generate_async_public_contract(request):
-    request.getfixturevalue("openai_api_key")
+async def test_dialog_generate_async_public_contract(openai_api_key):
     rails = LLMRails(load_config(DIALOG_CONFIG), verbose=False)
 
     result = await rails.generate_async(messages=[{"role": "user", "content": "hello"}])
@@ -44,11 +43,8 @@ async def test_dialog_generate_async_public_contract(request):
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 @pytest.mark.vcr
-async def test_single_call_generate_async_public_contract(request):
-    request.getfixturevalue("openai_api_key")
+async def test_single_call_generate_async_public_contract(openai_api_key):
     rails = LLMRails(load_config(SINGLE_CALL_CONFIG), verbose=False)
 
     result = await rails.generate_async(messages=[{"role": "user", "content": "hello"}])
@@ -65,8 +61,6 @@ bot express greeting
     )
 
 
-@pytest.mark.asyncio
-@pytest.mark.recorded
 async def test_single_call_check_async_without_io_rails():
     rails = LLMRails(load_config(SINGLE_CALL_CONFIG), verbose=False)
 

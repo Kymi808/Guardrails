@@ -374,20 +374,3 @@ def _provider_key_fixture_name(provider: str) -> str:
 def provider_key(request: pytest.FixtureRequest, provider: str) -> None:
     """Activate the API-key fixture for one LLM provider (``openai`` or ``nim``)."""
     request.getfixturevalue(_provider_key_fixture_name(provider))
-
-
-def recording_credentials(
-    request: pytest.FixtureRequest,
-    required_llm_providers: tuple[str, ...],
-    required_env_vars: tuple[str, ...] = (),
-) -> None:
-    """Activate API-key fixtures for every required provider and arbitrary service env var.
-
-    In replay mode the fixtures install dummy values; in record mode they require
-    the real environment variables and skip the test if any are missing.
-    """
-    for provider in required_llm_providers:
-        request.getfixturevalue(_provider_key_fixture_name(provider))
-    service_api_key = request.getfixturevalue("service_api_key")
-    for env_name in required_env_vars:
-        service_api_key(env_name)
