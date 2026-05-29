@@ -21,7 +21,6 @@ from tests.recorded.utils import DUMMY_OPENAI_API_KEY, api_key_for_record_mode
 pytestmark = [pytest.mark.recorded, pytest.mark.vcr]
 
 
-@pytest.mark.default_cassette("openai_embeddings_sync.yaml")
 def test_openai_embeddings_sync(record_mode):
     api_key = api_key_for_record_mode("OPENAI_API_KEY", DUMMY_OPENAI_API_KEY, record_mode)
     model = OpenAIEmbeddingModel("text-embedding-3-small", api_key=api_key, max_retries=0)

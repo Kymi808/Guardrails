@@ -23,7 +23,6 @@ from tests.recorded.utils import DUMMY_OPENAI_API_KEY, api_key_for_record_mode
 pytestmark = [pytest.mark.recorded, pytest.mark.vcr, pytest.mark.asyncio]
 
 
-@pytest.mark.default_cassette("openai_chat_generate_text.yaml")
 async def test_openai_chat_generate_text(record_mode):
     api_key = api_key_for_record_mode("OPENAI_API_KEY", DUMMY_OPENAI_API_KEY, record_mode)
 
